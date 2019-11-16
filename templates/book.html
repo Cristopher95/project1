@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Webpage</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/mycss.css') }}">
+  <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='css/tablecss.css') }}">
+  <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='css/ratingcss.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  {% if message != "" %}
+    {% if message[0] == 'r' %}
+      <div class="alert alert-danger" role="alert">
+        {{ message[1:] }}
+      </div>
+    {% endif %}
+    {% if message[0] == 'g'%}
+      <div class="alert alert-success" role="alert">
+        {{ message[1:] }}
+      </div>
+    {% endif %}
+  {% endif %}
+  <table id="myTable">
+    <tr class="header">
+      <th style="width:10%;">ISBN</th>
+      <th style="width:40%;">Title</th>
+      <th style="width:30%;">Author</th>
+      <th style="width:10%;">Year</th>
+      <th style="width:10%;">Rating</th>
+
+    </tr>
+      <tr class="table-row" href="{{ url_for('show_book', book_id=book.isbn) }}">
+        <td>{{ book.isbn}}</td>
+        <td>{{ book.title}}</td>
+        <td>{{ book.author}}</td>
+        <td>{{ book.year}}</td>
+        <td>{{ rating.ranking}} {{ mrating}}</td>
+      </tr>
+  </table>
+
+  <table id="myTable">
+    <tr class="header">
+      <th style="width:100%;">Reviews</th>
+        {% for review in reviews %}
+          <tr class="table-row" href="{{ url_for('show_book', book_id=book.isbn) }}">
+            <td>{{ review.review}}</td>
+          </tr>
+        {% else %}
+          <tr class="table-row" href="{{ url_for('show_book', book_id=book.isbn) }}">
+            <td>Not yet reviewed</td>
+          </tr>
+        {% endfor %}
+    </tr>
+  </table>
+
+  <table id="myTable">
+    <tr class="header">
+      <th style="width:40%;">Goodreads info</th>
+      <th style="width:30%;">Number of Ratings</th>
+      <th style="width:30%;">Average Rating</th>
+    </tr>
+    <tr class="table-row">
+      <td></td>
+      <td>{{ work_ratings_count}}</td>
+      <td>{{ average_rating}}</td>
+    </tr>
+  </table>
+
+  <div class="center-window">
+    <form action="{{ url_for('post_review')}}" method="post">
+      <label for="review">Leave a review</label>
+      <textarea type="text" id="freview" name="review" placeholder="Write a review" required></textarea>
+
+
+      <div class="rate">
+          <input type="radio" id="star5" name="rate" value="5" />
+          <label for="star5" title="text">5 stars</label>
+          <input type="radio" id="star4" name="rate" value="4" />
+          <label for="star4" title="text">4 stars</label>
+          <input type="radio" id="star3" name="rate" value="3" />
+          <label for="star3" title="text">3 stars</label>
+          <input type="radio" id="star2" name="rate" value="2" />
+          <label for="star2" title="text">2 stars</label>
+          <input type="radio" id="star1" name="rate" value="1" />
+          <label for="star1" title="text">1 star</label>
+      </div>
+      <div class="rate-text"> <span> Rate this book! </sapan></div>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+  <form action="{{ url_for('sign_in')}}" method="post" class="goback">
+    <input type="submit" value="<- Go back to Main Page" style="background-color: #0069D9">
+  </form>
+</body>
+</html>

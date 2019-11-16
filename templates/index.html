@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Webpage</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='css/mycss.css') }}">
+  <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='css/logincss.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <!-- {% for user in users %}
+    <p>{{ user.username}} to {{ user.password }}</p>
+  {% endfor %} -->
+  <div class="bg" style="background-color: rgba(255,255,255,0.9);">
+  </div>
+  {% if message != "" %}
+    {% if message[0] == 'r' %}
+      <div class="alert alert-danger" role="alert" style="bottom: 100%">
+        {{ message[1:] }}
+      </div>
+    {% endif %}
+    {% if message[0] == 'g'%}
+      <div class="alert alert-success" role="alert" style="bottom: 100%">
+        {{ message[1:] }}
+      </div>
+    {% endif %}
+  {% endif %}
+  {% if sign_up %}
+    <form action="{{ url_for('sign_up')}}" class="container" method="post">
+      <h1 class="margin-bottom" style="color: white;">Sign Up</h1>
+
+      <label for="username" style="color: white;"><b>Username</b></label>
+      <input type="text" name="username" required style="color: white;">
+
+      <label for="psw" style="color: white;"><b>Password</b></label>
+      <input type="password" name="psw" required style="color: white;">
+
+      <button type="submit" class="btn margin-bottom">Register!</button>
+
+      <a href="{{ url_for('index')}}" class="text1">Already have an acount? Login!</a>
+    </form>
+  {% else %}
+    <form action="{{ url_for('sign_in')}}" class="container" method="post">
+      <h1 class="margin-bottom" style="color: white;">Login</h1>
+
+      <label for="username" style="color: white;"><b>Username</b></label>
+      <input type="text" name="username" required style="color: white;">
+
+      <label for="psw" style="color: white;"><b>Password</b></label>
+      <input type="password" name="psw" required style="color: white;">
+
+      <button type="submit" class="btn margin-bottom">Login</button>
+
+      <a href="{{ url_for('switch_form')}}" class="text1">Don't have an acount? Sign up!</a>
+    </form>
+  {% endif %}
+</body>
+</html>
